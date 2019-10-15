@@ -39,13 +39,20 @@ class Login extends CI_Controller
      */
     public function index()
     {
-        $data = array();
+        if(!$this->auth->loginStatus())
+        {
+            $data = array();
 
-        if($_POST) {
-            $data = $this->auth->login($_POST);
+            if ($_POST) {
+                $data = $this->auth->login($_POST);
+            }
+
+            return $this->auth->showLoginForm($data);
         }
-
-        return $this->auth->showLoginForm($data);
+        else
+        {
+            return redirect("home");
+        }
     }
 
     /**
